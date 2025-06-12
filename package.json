@@ -1,0 +1,29 @@
+{
+  "name": "forge-jobs",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "crawl": "bun src/crawler.ts",
+    "multi-crawl": "mkdir -p results && bun src/multi-crawl.ts",
+    "build": "bun src/buildFeed.ts",
+    "dev": "mkdir -p results && bun crawl && bun build",
+    "full": "bun multi-crawl && bun build && bun serve",
+    "test": "mkdir -p results docs && bun src/test.ts",
+    "serve": "bun --hot src/server.ts"
+  },
+  "dependencies": {
+    "ai": "^4.3.16",
+    "@ai-sdk/openai": "^1.3.22",
+    "cheerio": "^1.1.0",
+    "feed": "^5.1.0",
+    "zod": "^3.25.63"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^24.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
