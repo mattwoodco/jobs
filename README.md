@@ -9,9 +9,12 @@ Free daily job board powered by GitHub Pages + Actions + AI crawlers. Zero hosti
    - Go to Settings → Secrets and variables → Actions
    - Click "New repository secret"
    - Name: `OPENAI_API_KEY`
-   - Value: Your OpenAI API key from [platform.openai.com](https://platform.openai.com)
-3. **Enable GitHub Pages** (Settings → Pages → Deploy from branch: `gh-pages`)
-4. **Run workflow** (Actions → `jobs-feed` → Run workflow)
+   - Value: Your OpenAI API key from [Mistral AI](https://mistral.ai)
+3. **Enable GitHub Pages** (Settings → Pages → Deploy from branch: `gh-pages`, folder: `/docs`)
+4. *(Optional)* To use a custom OpenAI-compatible endpoint or model, set these variables:
+   - `API_URL_BASE`: The base URL for the OpenAI-compatible API (default: `https://api.mistral.ai/v1`)
+   - `API_MODEL`: The model name (default: `mistral-small-latest`, e.g. `gpt-4o-mini`, etc.)
+5. **Run workflow** (Actions → `jobs-feed` → Run workflow)
 
 Your job board: `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
@@ -43,6 +46,11 @@ bun serve
 - **HackerNews Jobs** - YC companies (~27 jobs)
 - **WeWorkRemotely** - Remote positions (~48 jobs)
 
+## Model & Endpoint
+
+By default, this project uses the **Mistral-small-latest** model via an OpenAI-compatible endpoint (e.g. OpenRouter).
+You can override the endpoint and model using the `API_URL_BASE` and `API_MODEL` environment variables.
+
 **To add more sources**, edit `src/multi-crawl.ts` and `.github/workflows/jobs-feed.yml`
 
 ## What You Get
@@ -71,8 +79,8 @@ bun serve
 
 - GitHub Pages: **Free**
 - GitHub Actions: **Free** (2000 min/month)
-- OpenAI API: **~$3/month** (GPT-4o-mini)
+- OpenAI-compatible API: **~Free** (default: Mistral-small-latest, 1,000,000,000 tokens a month included in the free tier)
 
 ## Tech Stack
 
-Bun + TypeScript + Cheerio + AI SDK + GitHub Actions
+Bun + TypeScript + Cheerio + AI SDK + OpenAI-compatible SDK + GitHub Actions
