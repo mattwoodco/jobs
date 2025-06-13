@@ -1,4 +1,4 @@
-import { openai } from "@ai-sdk/openai";
+import getOpenAIModel from "./openaiClient";
 import { generateObject } from "ai";
 import { load } from "cheerio";
 import { z } from "zod";
@@ -48,7 +48,7 @@ const crawl = async () => {
 		}
 
 		const { object } = await generateObject({
-			model: openai("gpt-4o-mini"),
+			model: getOpenAIModel(),
 			schema: jobSchema,
 			prompt: `Extract job listings from these links. Only include actual job postings, not navigation or unrelated links.
 Base URL: ${SOURCE_URL}
