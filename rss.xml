@@ -2,13 +2,48 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>AI Jobs Daily</title>
-        <link>https://mattwoodco.github.io/job-board/</link>
+        <link>https://undefined.github.io/job-board/</link>
         <description>Fresh tech jobs scraped by AI</description>
-        <lastBuildDate>Thu, 12 Jun 2025 18:59:30 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 13 Jun 2025 06:09:01 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>AI Job Board</generator>
         <copyright>© 2025</copyright>
-        <atom:link href="https://mattwoodco.github.io/job-board/rss.xml" rel="self" type="application/rss+xml"/>
+        <atom:link href="https://undefined.github.io/job-board/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Remote Sales Chat Representative at UsedConex.com]]></title>
+            <link>https://weworkremotely.com/listings/usedconex-com-remote-sales-chat-representative-3</link>
+            <guid isPermaLink="false">https://weworkremotely.com/listings/usedconex-com-remote-sales-chat-representative-3</guid>
+            <pubDate>Fri, 13 Jun 2025 06:09:01 GMT</pubDate>
+            <description><![CDATA[UsedConex.com - Tampa, FL]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Business Development Specialist at Speakeasy Authority Marketing, Inc.]]></title>
+            <link>https://weworkremotely.com/listings/speakeasy-authority-marketing-inc-business-development-specialist-1</link>
+            <guid isPermaLink="false">https://weworkremotely.com/listings/speakeasy-authority-marketing-inc-business-development-specialist-1</guid>
+            <pubDate>Fri, 13 Jun 2025 06:09:01 GMT</pubDate>
+            <description><![CDATA[Speakeasy Authority Marketing, Inc. - Austin, TX]]></description>
+        </item>
+        <item>
+            <title><![CDATA[FT/PT Remote AI Prompt Engineering & Evaluation - Will Train at DataAnnotation.tech]]></title>
+            <link>https://weworkremotely.com/listings/dataannotation-tech-ft-pt-remote-ai-prompt-engineering-evaluation-will-train</link>
+            <guid isPermaLink="false">https://weworkremotely.com/listings/dataannotation-tech-ft-pt-remote-ai-prompt-engineering-evaluation-will-train</guid>
+            <pubDate>Fri, 13 Jun 2025 06:09:01 GMT</pubDate>
+            <description><![CDATA[DataAnnotation.tech - New York, NY]]></description>
+        </item>
+        <item>
+            <title><![CDATA[President / CRO at Roundtable (YC S23)]]></title>
+            <link>https://www.ycombinator.com/companies/roundtable/jobs/wmPTI9F-president-cro-founding</link>
+            <guid isPermaLink="false">https://www.ycombinator.com/companies/roundtable/jobs/wmPTI9F-president-cro-founding</guid>
+            <pubDate>Fri, 13 Jun 2025 06:09:01 GMT</pubDate>
+            <description><![CDATA[Roundtable (YC S23)]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Back End Engineers at GoGoGrandparent (YC S16)]]></title>
+            <link>https://news.ycombinator.com/item?id=44118127</link>
+            <guid isPermaLink="false">https://news.ycombinator.com/item?id=44118127</guid>
+            <pubDate>Fri, 13 Jun 2025 06:09:01 GMT</pubDate>
+            <description><![CDATA[GoGoGrandparent (YC S16)]]></description>
+        </item>
         <item>
             <title><![CDATA[Sales Executive at Dwizzy]]></title>
             <link>https://weworkremotely.com/listings/dwizzy-sales-executive</link>
@@ -323,41 +358,6 @@
             <guid isPermaLink="false">https://weworkremotely.com/listings/remotemore-cybersecurity-architect</guid>
             <pubDate>Thu, 12 Jun 2025 18:59:30 GMT</pubDate>
             <description><![CDATA[RemoteMore - Berlin/Chicago]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Program Manager- Vendor Finance at Motive]]></title>
-            <link>https://weworkremotely.com/listings/motive-program-manager-vendor-finance</link>
-            <guid isPermaLink="false">https://weworkremotely.com/listings/motive-program-manager-vendor-finance</guid>
-            <pubDate>Thu, 12 Jun 2025 18:59:30 GMT</pubDate>
-            <description><![CDATA[Motive - United States]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Director of Business Development and Client Relations at Marcus & Millichap]]></title>
-            <link>https://weworkremotely.com/listings/marcus-millichap-director-of-business-development-and-client-relations</link>
-            <guid isPermaLink="false">https://weworkremotely.com/listings/marcus-millichap-director-of-business-development-and-client-relations</guid>
-            <pubDate>Thu, 12 Jun 2025 18:59:30 GMT</pubDate>
-            <description><![CDATA[Marcus & Millichap - Denver, CO]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Director of Product Marketing at Federato]]></title>
-            <link>https://weworkremotely.com/listings/federato-director-of-product-marketing</link>
-            <guid isPermaLink="false">https://weworkremotely.com/listings/federato-director-of-product-marketing</guid>
-            <pubDate>Thu, 12 Jun 2025 18:59:30 GMT</pubDate>
-            <description><![CDATA[Federato - Remote]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Founding Product AI Engineer at Roame (YC S23)]]></title>
-            <link>https://www.ycombinator.com/companies/roame/jobs/9QhTM31-founding-product-ai-engineer</link>
-            <guid isPermaLink="false">https://www.ycombinator.com/companies/roame/jobs/9QhTM31-founding-product-ai-engineer</guid>
-            <pubDate>Thu, 12 Jun 2025 18:37:39 GMT</pubDate>
-            <description><![CDATA[Roame (YC S23)]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Founding Engineer (Full Stack) at SchemeFlow (YC S24)]]></title>
-            <link>https://www.ycombinator.com/companies/schemeflow/jobs/SbxEFHv-founding-engineer-full-stack</link>
-            <guid isPermaLink="false">https://www.ycombinator.com/companies/schemeflow/jobs/SbxEFHv-founding-engineer-full-stack</guid>
-            <pubDate>Thu, 12 Jun 2025 18:37:39 GMT</pubDate>
-            <description><![CDATA[SchemeFlow (YC S24)]]></description>
         </item>
     </channel>
 </rss>
