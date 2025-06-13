@@ -82,6 +82,51 @@ const sources = [
     url: "https://weworkremotely.com/remote-jobs",
     selector: ".feature a",
   },
+  {
+    name: "remoteok",
+    url: "https://remoteok.io/",
+    selector: ".job a",
+  },
+  {
+    name: "dice",
+    url: "https://www.dice.com/jobs",
+    selector: "[data-testid='job-search-job-detail-link']",
+  },
+  {
+    name: "jobspresso",
+    url: "https://jobspresso.co/",
+    selector: ".job_listing-clickbox",
+  },
+  {
+    name: "outsite",
+    url: "https://www.outsite.co/jobs",
+    selector: "a[href^='/jobs/']",
+  },
+  {
+    name: "yc",
+    url: "https://www.workatastartup.com/jobs",
+    selector: "a[href^='/jobs/']",
+  },
+  {
+    name: "otta",
+    url: "https://otta.com",
+    selector: "a[href^='/jobs/']",
+  },
+  {
+    name: "arc",
+    url: "https://arc.dev/remote-jobs",
+    selector: "a[href^='/remote-jobs/']",
+  },
+  {
+    name: "remoteleads",
+    url: "https://remoteleads.io/",
+    selector: "a[href^='/leads/']",
+  },
+  // {
+  //   name: "indeed",
+  //   url: "https://www.indeed.com/jobs?q=software+engineer",
+  //   selector: "h2 a[data-jk]",
+  // },
 ];
 
 const crawlAll = async () => {
