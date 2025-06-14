@@ -33,6 +33,59 @@
       font-size: 0.875rem;
       color: #666
     }
+    .filters {
+      background: white;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 1rem;
+      align-items: end
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem
+    }
+    .filter-group label {
+      font-weight: 500;
+      font-size: 0.875rem;
+      color: #555
+    }
+    .filter-group input,
+    .filter-group select {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      background: white
+    }
+    .filter-group input:focus,
+    .filter-group select:focus {
+      outline: none;
+      border-color: #0066cc;
+      box-shadow: 0 0 0 2px rgba(0,102,204,0.1)
+    }
+    .clear-filters {
+      padding: 0.5rem 1rem;
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: #666;
+      height: fit-content
+    }
+    .clear-filters:hover { background: #ebebeb }
+    @media (max-width: 640px) {
+      .filters {
+        grid-template-columns: 1fr;
+        gap: 1rem
+      }
+      .clear-filters { justify-self: start }
+    }
     .job {
       background: white;
       padding: 1.25rem;
@@ -78,6 +131,12 @@
       padding: 3rem;
       color: #666
     }
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+      font-style: italic
+    }
   </style>
 </head>
 <body>
@@ -95,43 +154,145 @@
       RSS Feed
     </a>
   </div>
+
+  <form class="filters">
+    <div class="filter-group">
+      <label for="search">Search</label>
+      <input type="text" id="search" placeholder="Job title or company..." autocomplete="off">
+    </div>
+    <div class="filter-group">
+      <label for="location">Location</label>
+      <select id="location">
+        <option value="">All locations</option>
+        <option value="remote">Remote</option>
+        <option value="united states">United States</option>
+        <option value="california">California</option>
+        <option value="new york">New York</option>
+        <option value="uk">United Kingdom</option>
+        <option value="canada">Canada</option>
+        <option value="germany">Germany</option>
+        <option value="australia">Australia</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="dateRange">Posted</label>
+      <select id="dateRange">
+        <option value="">All time</option>
+        <option value="today">Today</option>
+        <option value="week">This week</option>
+        <option value="month">This month</option>
+      </select>
+    </div>
+    <button type="button" class="clear-filters" onclick="clearFilters()">Clear</button>
+  </form>
+
   <div id="loading">Loading jobs...</div>
   <div id="jobs"></div>
   <script>
+    let allJobs = [];
+    let filteredJobs = [];
+
+    function filterJobs() {
+      const search = document.getElementById('search').value.toLowerCase();
+      const location = document.getElementById('location').value.toLowerCase();
+      const dateRange = document.getElementById('dateRange').value;
+      
+      const now = new Date();
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const weekStart = new Date(now - 7 * 24 * 60 * 60 * 1000);
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+      filteredJobs = allJobs.filter(job => {
+        const matchesSearch = !search || 
+          job.title.toLowerCase().includes(search) || 
+          job.company.toLowerCase().includes(search);
+        
+        const matchesLocation = !location || 
+          (job.location && job.location.toLowerCase().includes(location));
+        
+        let matchesDate = true;
+        if (dateRange && job.date) {
+          const jobDate = new Date(job.date);
+          switch(dateRange) {
+            case 'today':
+              matchesDate = jobDate >= todayStart;
+              break;
+            case 'week':
+              matchesDate = jobDate >= weekStart;
+              break;
+            case 'month':
+              matchesDate = jobDate >= monthStart;
+              break;
+          }
+        }
+        
+        return matchesSearch && matchesLocation && matchesDate;
+      });
+
+      renderJobs();
+    }
+
+    function renderJobs() {
+      const jobsContainer = document.getElementById('jobs');
+      const stats = document.getElementById('stats');
+      
+      if (filteredJobs.length === 0) {
+        jobsContainer.innerHTML = '<div class="no-results">No jobs found matching your filters</div>';
+        stats.textContent = '0 jobs shown • Updated ' + new Date().toLocaleDateString();
+        return;
+      }
+
+      const now = new Date();
+      stats.textContent = filteredJobs.length + ' jobs shown • Updated ' + new Date().toLocaleDateString();
+      
+      jobsContainer.innerHTML = filteredJobs.map(j => {
+        try {
+          const date = new Date(j.date);
+          let days = 0;
+          if (!isNaN(date.getTime())) {
+            days = Math.max(0, Math.floor((now - date) / (1000 * 60 * 60 * 24)));
+          }
+          const dateStr = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + ' days ago';
+          return '<div class="job">' +
+            '<a href="' + j.url + '" target="_blank" class="job-title">' + j.title + '</a>' +
+            '<div class="meta">' +
+              j.company + (j.location ? ' • ' + j.location : '') +
+              '<span class="date"> • ' + dateStr + '</span>' +
+            '</div>' +
+          '</div>';
+        } catch (e) {
+          return '<div class="job">' +
+            '<a href="' + j.url + '" target="_blank" class="job-title">' + j.title + '</a>' +
+            '<div class="meta">' + j.company + (j.location ? ' • ' + j.location : '') + '</div>' +
+          '</div>';
+        }
+      }).join('');
+    }
+
+    function clearFilters() {
+      document.getElementById('search').value = '';
+      document.getElementById('location').value = '';
+      document.getElementById('dateRange').value = '';
+      filteredJobs = allJobs;
+      renderJobs();
+    }
+
+    document.getElementById('search').addEventListener('input', filterJobs);
+    document.getElementById('location').addEventListener('change', filterJobs);
+    document.getElementById('dateRange').addEventListener('change', filterJobs);
+
     fetch('jobs.json')
       .then(r => r.json())
       .then(jobs => {
-        const now = new Date()
-        document.getElementById('stats').textContent = jobs.length + ' jobs • Updated ' + 
-          new Date().toLocaleDateString()
-        document.getElementById('loading').style.display = 'none'
-        document.getElementById('jobs').innerHTML = jobs.map(j => {
-          try {
-            const date = new Date(j.date)
-            let days = 0
-            if (!isNaN(date.getTime())) {
-              days = Math.max(0, Math.floor((now - date) / (1000 * 60 * 60 * 24)))
-            }
-            const dateStr = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + ' days ago'
-            return '<div class="job">' +
-              '<a href="' + j.url + '" target="_blank" class="job-title">' + j.title + '</a>' +
-              '<div class="meta">' +
-                j.company + (j.location ? ' • ' + j.location : '') +
-                '<span class="date"> • ' + dateStr + '</span>' +
-              '</div>' +
-            '</div>'
-          } catch (e) {
-            return '<div class="job">' +
-              '<a href="' + j.url + '" target="_blank" class="job-title">' + j.title + '</a>' +
-              '<div class="meta">' + j.company + (j.location ? ' • ' + j.location : '') + '</div>' +
-            '</div>'
-          }
-        }).join('')
+        allJobs = jobs;
+        filteredJobs = jobs;
+        document.getElementById('loading').style.display = 'none';
+        renderJobs();
       })
       .catch(e => {
-        console.error(e)
-        document.getElementById('loading').innerHTML = 'Error loading jobs. Please refresh the page.'
-      })
+        console.error(e);
+        document.getElementById('loading').innerHTML = 'Error loading jobs. Please refresh the page.';
+      });
   </script>
 </body>
 </html>
