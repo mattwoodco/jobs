@@ -1,5 +1,5 @@
 {
-  "name": "forge-jobs",
+  "name": "forge-shows",
   "module": "index.ts",
   "type": "module",
   "private": true,

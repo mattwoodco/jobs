@@ -3,12 +3,14 @@ import { generateObject } from "ai";
 import { load } from "cheerio";
 import { z } from "zod";
 
-const jobSchema = z.object({
-  jobs: z.array(
+const showSchema = z.object({
+  shows: z.array(
     z.object({
       title: z.string(),
-      company: z.string(),
+      artist: z.string(),
+      venue: z.string(),
       url: z.string(),
+      date: z.string().optional(),
       location: z.string().optional(),
     })
   ),
@@ -51,18 +53,19 @@ const crawlSource = async (source: {
 
     const { object } = await generateObject({
       model: openai("gpt-4o-mini"),
-      schema: jobSchema,
-      prompt: `Extract job listings from these links. Only include actual job postings, not navigation or unrelated links.
+      schema: showSchema,
+      prompt: `Extract live music show listings from these links. Only include actual concert/show events, not navigation or unrelated links.
+Focus on: concerts, live music performances, shows, gigs, festivals in Los Angeles area.
 Base URL: ${source.url}
 Links: ${JSON.stringify(links)}`,
     });
 
     await Bun.write(
       `results/${source.name}.json`,
-      JSON.stringify(object.jobs || [])
+      JSON.stringify(object.shows || [])
     );
-    console.log(`✓ ${source.name}: found ${object.jobs?.length || 0} jobs`);
-    return { source: source.name, count: object.jobs?.length || 0 };
+    console.log(`✓ ${source.name}: found ${object.shows?.length || 0} shows`);
+    return { source: source.name, count: object.shows?.length || 0 };
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
     console.error(`✗ ${source.name}:`, errorMsg);
@@ -73,64 +76,59 @@ Links: ${JSON.stringify(links)}`,
 
 const sources = [
   {
-    name: "hn",
-    url: "https://news.ycombinator.com/jobs",
-    selector: ".titleline>a",
+    name: "el-rey",
+    url: "https://showbams.com/tag/el-rey-theatre/",
+    selector: "article h2 a, .entry-title a",
   },
   {
-    name: "wwr",
-    url: "https://weworkremotely.com/remote-jobs",
-    selector: ".feature a",
+    name: "showlist-la",
+    url: "https://showlist.la/",
+    selector: "a[href*='http']",
   },
   {
-    name: "remoteok",
-    url: "https://remoteok.io/",
-    selector: ".job a",
+    name: "troubadour",
+    url: "https://troubadour.com/",
+    selector: "a[href*='/events/'], .event a, h3 a",
   },
   {
-    name: "dice",
-    url: "https://www.dice.com/jobs",
-    selector: "[data-testid='job-search-job-detail-link']",
+    name: "grimy-goods",
+    url: "https://www.grimygoods.com/",
+    selector: "article h2 a, .entry-title a",
   },
   {
-    name: "jobspresso",
-    url: "https://jobspresso.co/",
-    selector: ".job_listing-clickbox",
+    name: "spaceland-presents",
+    url: "https://www.spacelandpresents.com/",
+    selector: ".show-info a, .event-link, .artist-name a",
   },
   {
-    name: "outsite",
-    url: "https://www.outsite.co/jobs",
-    selector: "a[href^='/jobs/']",
+    name: "ticketmaster-la",
+    url: "https://www.ticketmaster.com/discover/concerts/los-angeles",
+    selector: ".event-card a, .event-name a",
   },
   {
-    name: "yc",
-    url: "https://www.workatastartup.com/jobs",
-    selector: "a[href^='/jobs/']",
+    name: "songkick-la",
+    url: "https://www.songkick.com/metro-areas/17835-us-los-angeles",
+    selector: ".event-link, .artists a",
   },
   {
-    name: "otta",
-    url: "https://otta.com",
-    selector: "a[href^='/jobs/']",
+    name: "resident-advisor-la",
+    url: "https://ra.co/events/us/losangeles",
+    selector: ".event-item a, .event-title a",
   },
   {
-    name: "arc",
-    url: "https://arc.dev/remote-jobs",
-    selector: "a[href^='/remote-jobs/']",
+    name: "la-weekly",
+    url: "https://www.laweekly.com/category/music/",
+    selector: "article h2 a, .entry-title a",
   },
   {
-    name: "remoteleads",
-    url: "https://remoteleads.io/",
-    selector: "a[href^='/leads/']",
+    name: "buzzbands-la",
+    url: "https://buzzbands.la/",
+    selector: "article h2 a, .entry-title a",
   },
-  // {
-  //   name: "indeed",
-  //   url: "https://www.indeed.com/jobs?q=software+engineer",
-  //   selector: "h2 a[data-jk]",
-  // },
 ];
 
 const crawlAll = async () => {
-  console.log(`🚀 Crawling ${sources.length} job sources...`);
+  console.log(`🚀 Crawling ${sources.length} LA music venues...`);
 
   const results = await Promise.allSettled(
     sources.map((source) => crawlSource(source))
@@ -139,16 +137,16 @@ const crawlAll = async () => {
   const summary = results.map((r) =>
     r.status === "fulfilled" ? r.value : r.reason
   );
-  const totalJobs = summary.reduce((sum, r) => sum + (r.count || 0), 0);
+  const totalShows = summary.reduce((sum, r) => sum + (r.count || 0), 0);
 
   console.log("\n📊 Crawl Summary:");
   for (const r of summary) {
     const status = r.error ? "❌" : "✅";
     console.log(
-      `${status} ${r.source}: ${r.count} jobs ${r.error ? `(${r.error})` : ""}`
+      `${status} ${r.source}: ${r.count} shows ${r.error ? `(${r.error})` : ""}`
     );
   }
-  console.log(`\n🎯 Total: ${totalJobs} jobs from ${sources.length} sources`);
+  console.log(`\n Total: ${totalShows} shows from ${sources.length} venues`);
 };
 
 crawlAll().catch(console.error);

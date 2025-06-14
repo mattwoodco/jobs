@@ -1,0 +1,98 @@
+[
+  {
+    "title": "House Nation presents Carl Cox",
+    "artist": "Carl Cox",
+    "venue": "Exchange LA",
+    "url": "https://example.com/carl-cox",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  },
+  {
+    "title": "Tame Impala Live",
+    "artist": "Tame Impala",
+    "venue": "Greek Theatre",
+    "url": "https://example.com/tame-impala",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  },
+  {
+    "title": "Punk Rock Night",
+    "artist": "Bad Religion",
+    "venue": "The Roxy",
+    "url": "https://example.com/bad-religion",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "West Hollywood, CA"
+  },
+  {
+    "title": "Jazz at the Bowl",
+    "artist": "Kamasi Washington",
+    "venue": "Hollywood Bowl",
+    "url": "https://example.com/kamasi",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Hollywood, CA"
+  },
+  {
+    "title": "Electronic Underground",
+    "artist": "Burial",
+    "venue": "1720",
+    "url": "https://example.com/burial",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  },
+  {
+    "title": "Indie Night",
+    "artist": "Phoebe Bridgers",
+    "venue": "The Troubadour",
+    "url": "https://example.com/phoebe",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "West Hollywood, CA"
+  },
+  {
+    "title": "Hip-Hop Showcase",
+    "artist": "Tyler, The Creator",
+    "venue": "The Shrine",
+    "url": "https://example.com/tyler",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  },
+  {
+    "title": "Rock Revival",
+    "artist": "Arctic Monkeys",
+    "venue": "The Wiltern",
+    "url": "https://example.com/arctic-monkeys",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  },
+  {
+    "title": "Latin Night",
+    "artist": "Rosalía",
+    "venue": "El Rey Theatre",
+    "url": "https://example.com/rosalia",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  },
+  {
+    "title": "Techno Tuesday",
+    "artist": "Charlotte de Witte",
+    "venue": "Sound Nightclub",
+    "url": "https://example.com/charlotte",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  },
+  {
+    "title": "Alternative Rock",
+    "artist": "Radiohead",
+    "venue": "The Forum",
+    "url": "https://example.com/radiohead",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Inglewood, CA"
+  },
+  {
+    "title": "Experimental Electronic",
+    "artist": "Aphex Twin",
+    "venue": "Echoplex",
+    "url": "https://example.com/aphex-twin",
+    "date": "2025-06-14T02:28:33.885Z",
+    "location": "Los Angeles, CA"
+  }
+]

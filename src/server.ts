@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const html = readFileSync("docs/index.html", "utf-8");
-const jobs = readFileSync("docs/jobs.json", "utf-8");
+const shows = readFileSync("docs/shows.json", "utf-8");
 
 Bun.serve({
 	port: 3000,
@@ -17,8 +17,8 @@ Bun.serve({
 			});
 		}
 
-		if (url.pathname === "/jobs.json") {
-			return new Response(jobs, {
+		if (url.pathname === "/shows.json") {
+			return new Response(shows, {
 				headers: { "Content-Type": "application/json" },
 			});
 		}
@@ -37,3 +37,5 @@ Bun.serve({
 		return new Response("Not found", { status: 404 });
 	},
 });
+
+console.log("🎵 LA Shows Board running on http://localhost:3000");

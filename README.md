@@ -1,6 +1,6 @@
-# AI Job Board
+# LA Show Board
 
-Free daily job board powered by GitHub Pages + Actions + AI crawlers. Zero hosting costs.
+Free daily live music show listings for Los Angeles powered by GitHub Pages + Actions + AI crawlers. Zero hosting costs.
 
 ## Quick Start
 
@@ -11,9 +11,9 @@ Free daily job board powered by GitHub Pages + Actions + AI crawlers. Zero hosti
    - Name: `OPENAI_API_KEY`
    - Value: Your OpenAI API key from [platform.openai.com](https://platform.openai.com)
 3. **Enable GitHub Pages** (Settings → Pages → Deploy from branch: `gh-pages`)
-4. **Run workflow** (Actions → `jobs-feed` → Run workflow)
+4. **Run workflow** (Actions → `shows-feed` → Run workflow)
 
-Your job board: `https://YOUR_USERNAME.github.io/REPO_NAME/`
+Your show board: `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
 > **Note:** `GITHUB_TOKEN` is automatically provided by GitHub Actions - no setup needed!
 
@@ -23,10 +23,10 @@ Your job board: `https://YOUR_USERNAME.github.io/REPO_NAME/`
 # Install
 bun install
 
-# Test single source (27 jobs)
-SOURCE_URL=https://news.ycombinator.com/jobs SOURCE_NAME=test SELECTOR='.titleline>a' bun crawl
+# Test single source (Troubadour shows)
+SOURCE_URL=https://troubadour.com/ SOURCE_NAME=test SELECTOR='.event-item a, .event-link, .show-link' bun crawl
 
-# Test multiple sources (75+ jobs)
+# Test multiple sources (all LA venues)
 bun multi-crawl
 
 # Build feed
@@ -38,20 +38,25 @@ bun serve
 
 ## Current Sources
 
-**Working (75+ jobs/day):**
+**Working LA Music Venues:**
 
-- **HackerNews Jobs** - YC companies (~27 jobs)
-- **WeWorkRemotely** - Remote positions (~48 jobs)
+- **Troubadour** - Legendary West Hollywood venue (~15+ shows/week)
+- **Greek Theatre** - Outdoor amphitheater shows
+- **El Rey Theatre** - Historic theatre listings
+- **The Echo/Echoplex** - Indie and underground shows
+- **Hollywood Bowl** - Major outdoor concerts
+- **The Roxy** - Sunset Strip venue
+- **Showlist.la** - LA show aggregator
 
-**To add more sources**, edit `src/multi-crawl.ts` and `.github/workflows/jobs-feed.yml`
+**To add more venues**, edit `src/multi-crawl.ts` and `.github/workflows/shows-feed.yml`
 
 ## What You Get
 
 - **RSS feed** at `/rss.xml`
-- **Job board UI** with search and filters
+- **Show board UI** with search and filters
 - **Daily updates** via GitHub Actions cron
 - **Smart deduplication** (no duplicates)
-- **Mobile responsive** design
+- **Mobile responsive** design with beautiful gradients
 
 ## Troubleshooting
 
@@ -61,11 +66,11 @@ bun serve
 - Workflow has 3 retry attempts with 30s delays
 - Just re-run the workflow later
 
-**No jobs showing up?**
+**No shows showing up?**
 
 - Check Actions logs for API key issues
 - Verify `OPENAI_API_KEY` is set in repo secrets
-- Some job sites may block automated requests
+- Some venues may block automated requests
 
 ## Costs
 
@@ -73,6 +78,20 @@ bun serve
 - GitHub Actions: **Free** (2000 min/month)
 - OpenAI API: **~$3/month** (GPT-4o-mini)
 
+## Show Types Covered
+
+- **House Music** shows and DJ sets
+- **Rock** concerts and festivals  
+- **Indie** and alternative performances
+- **Electronic** music events
+- **Hip-hop** and R&B shows
+- **Jazz** and experimental music
+- **Punk** and metal shows
+
 ## Tech Stack
 
 Bun + TypeScript + Cheerio + AI SDK + GitHub Actions
+
+## Contributing
+
+Found a great LA venue we're missing? Submit a PR with the venue added to `src/multi-crawl.ts`!
