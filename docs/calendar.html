@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar - Google Calendar Integration</title>
+  <style>
+    * { box-sizing: border-box }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+      color: #333;
+      background: #fafafa
+    }
+    h1 { 
+      font-size: 2rem;
+      margin: 0 0 1rem;
+      font-weight: 600
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+    .nav-btn {
+      background: #0066cc;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background 0.2s
+    }
+    .nav-btn:hover { background: #0056b3 }
+    .calendar-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem
+    }
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem
+    }
+    .month-year {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #333
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden
+    }
+    .calendar-day {
+      background: white;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500
+    }
+    .calendar-day:hover {
+      background: #f0f8ff
+    }
+    .calendar-day.other-month {
+      color: #ccc;
+      background: #f9f9f9
+    }
+    .calendar-day.today {
+      background: #0066cc;
+      color: white
+    }
+    .calendar-day.selected {
+      background: #ff6600;
+      color: white
+    }
+    .weekday-header {
+      background: #f5f5f5;
+      font-weight: 600;
+      color: #666;
+      padding: 0.75rem;
+      text-align: center;
+      font-size: 0.875rem
+    }
+    .event-form {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 2rem
+    }
+    .form-group {
+      margin-bottom: 1rem
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #0066cc;
+      box-shadow: 0 0 0 2px rgba(0,102,204,0.1)
+    }
+    .google-calendar-btn {
+      background: #4285f4;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s
+    }
+    .google-calendar-btn:hover { background: #3367d6 }
+    .back-link {
+      background: #666;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.875rem
+    }
+    .back-link:hover { background: #555 }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>Interactive Calendar</h1>
+      <p style="margin: 0; color: #666; font-size: 0.875rem;">Click on any date to create a Google Calendar event</p>
+    </div>
+    <a href="/" class="back-link">← Back to Jobs</a>
+  </div>
+
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button class="nav-btn" onclick="changeMonth(-1)">← Previous</button>
+      <div class="month-year" id="monthYear"></div>
+      <button class="nav-btn" onclick="changeMonth(1)">Next →</button>
+    </div>
+    
+    <div class="calendar-grid" id="calendar">
+    </div>
+  </div>
+
+  <div class="event-form" id="eventForm" style="display: none;">
+    <h3>Create Event for <span id="selectedDate"></span></h3>
+    <div class="form-group">
+      <label for="eventTitle">Event Title</label>
+      <input type="text" id="eventTitle" placeholder="Enter event title">
+    </div>
+    <div class="form-group">
+      <label for="eventDescription">Description (optional)</label>
+      <textarea id="eventDescription" rows="3" placeholder="Enter event description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="eventTime">Start Time</label>
+      <input type="time" id="eventTime" value="09:00">
+    </div>
+    <div class="form-group">
+      <label for="eventDuration">Duration (hours)</label>
+      <input type="number" id="eventDuration" value="1" min="0.5" max="24" step="0.5">
+    </div>
+    <div style="display: flex; gap: 1rem;">
+      <a href="#" class="google-calendar-btn" id="googleCalendarLink" onclick="openGoogleCalendar()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+        </svg>
+        Open in Google Calendar
+      </a>
+      <button class="nav-btn" onclick="hideEventForm()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    let currentDate = new Date();
+    let selectedDate = null;
+
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      
+      document.getElementById('monthYear').textContent = `${months[month]} ${year}`;
+      
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const startDate = new Date(firstDay);
+      startDate.setDate(startDate.getDate() - firstDay.getDay());
+      
+      const calendar = document.getElementById('calendar');
+      calendar.innerHTML = '';
+      
+      weekdays.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'weekday-header';
+        dayHeader.textContent = day;
+        calendar.appendChild(dayHeader);
+      });
+      
+      for (let i = 0; i < 42; i++) {
+        const currentDay = new Date(startDate);
+        currentDay.setDate(startDate.getDate() + i);
+        
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        dayElement.textContent = currentDay.getDate();
+        
+        if (currentDay.getMonth() !== month) {
+          dayElement.classList.add('other-month');
+        }
+        
+        const today = new Date();
+        if (currentDay.toDateString() === today.toDateString()) {
+          dayElement.classList.add('today');
+        }
+        
+        if (selectedDate && currentDay.toDateString() === selectedDate.toDateString()) {
+          dayElement.classList.add('selected');
+        }
+        
+        dayElement.addEventListener('click', () => selectDate(currentDay));
+        calendar.appendChild(dayElement);
+      }
+    }
+
+    function changeMonth(direction) {
+      currentDate.setMonth(currentDate.getMonth() + direction);
+      renderCalendar();
+    }
+
+    function selectDate(date) {
+      selectedDate = new Date(date);
+      document.getElementById('selectedDate').textContent = selectedDate.toDateString();
+      document.getElementById('eventForm').style.display = 'block';
+      renderCalendar();
+    }
+
+    function hideEventForm() {
+      document.getElementById('eventForm').style.display = 'none';
+      selectedDate = null;
+      renderCalendar();
+    }
+
+    function openGoogleCalendar() {
+      const title = document.getElementById('eventTitle').value || 'New Event';
+      const description = document.getElementById('eventDescription').value;
+      const time = document.getElementById('eventTime').value;
+      const duration = parseFloat(document.getElementById('eventDuration').value);
+      
+      const startDateTime = new Date(selectedDate);
+      const [hours, minutes] = time.split(':');
+      startDateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+      
+      const endDateTime = new Date(startDateTime);
+      endDateTime.setHours(endDateTime.getHours() + Math.floor(duration));
+      endDateTime.setMinutes(endDateTime.getMinutes() + ((duration % 1) * 60));
+      
+      const formatDateTime = (date) => {
+        return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+      };
+      
+      const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: title,
+        dates: `${formatDateTime(startDateTime)}/${formatDateTime(endDateTime)}`,
+        details: description,
+        sf: true,
+        output: 'xml'
+      });
+      
+      const url = `https://calendar.google.com/calendar/render?${params.toString()}`;
+      window.open(url, '_blank');
+    }
+
+    renderCalendar();
+  </script>
+</body>
+</html>

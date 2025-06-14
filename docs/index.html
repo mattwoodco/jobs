@@ -86,14 +86,17 @@
       <h1>AI Jobs Daily</h1>
       <div class="stats" id="stats"></div>
     </div>
-    <a href="rss.xml" class="rss-link">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M3.429 7.1c0-.79.64-1.429 1.428-1.429 5.465 0 9.9 4.435 9.9 9.9 0 .789-.64 1.429-1.428 1.429-.79 0-1.429-.64-1.429-1.429 0-3.888-3.155-7.043-7.043-7.043-.789 0-1.428-.64-1.428-1.428z"/>
-        <path d="M3.429 12.6c0-.79.64-1.429 1.428-1.429 2.438 0 4.4 1.961 4.4 4.4 0 .789-.64 1.429-1.428 1.429-.79 0-1.429-.64-1.429-1.429 0-.86-.7-1.543-1.543-1.543-.789 0-1.428-.64-1.428-1.428z"/>
-        <circle cx="4.857" cy="15.571" r="1.714"/>
-      </svg>
-      RSS Feed
-    </a>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <a href="/calendar" style="background: #28a745; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-size: 0.875rem;">📅 Calendar</a>
+      <a href="rss.xml" class="rss-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3.429 7.1c0-.79.64-1.429 1.428-1.429 5.465 0 9.9 4.435 9.9 9.9 0 .789-.64 1.429-1.428 1.429-.79 0-1.429-.64-1.429-1.429 0-3.888-3.155-7.043-7.043-7.043-.789 0-1.428-.64-1.428-1.428z"/>
+          <path d="M3.429 12.6c0-.79.64-1.429 1.428-1.429 2.438 0 4.4 1.961 4.4 4.4 0 .789-.64 1.429-1.428 1.429-.79 0-1.429-.64-1.429-1.429 0-.86-.7-1.543-1.543-1.543-.789 0-1.428-.64-1.428-1.428z"/>
+          <circle cx="4.857" cy="15.571" r="1.714"/>
+        </svg>
+        RSS Feed
+      </a>
+    </div>
   </div>
   <div id="loading">Loading jobs...</div>
   <div id="jobs"></div>

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const html = readFileSync("docs/index.html", "utf-8");
 const jobs = readFileSync("docs/jobs.json", "utf-8");
+const calendar = readFileSync("docs/calendar.html", "utf-8");
 
 Bun.serve({
 	port: 3000,
@@ -13,6 +14,12 @@ Bun.serve({
 
 		if (url.pathname === "/" || url.pathname === "/index.html") {
 			return new Response(html, {
+				headers: { "Content-Type": "text/html" },
+			});
+		}
+
+		if (url.pathname === "/calendar" || url.pathname === "/calendar.html") {
+			return new Response(calendar, {
 				headers: { "Content-Type": "text/html" },
 			});
 		}
